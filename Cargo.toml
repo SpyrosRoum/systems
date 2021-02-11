@@ -1,9 +1,11 @@
 [package]
-name = "nsim"
+name = "systems"
 version = "0.1.0"
 authors = ["Spyros Roum <spyrosr1@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+rand = "0.8"
+
+# Until ggez version 6 I need to use the devel branch because version 0.5 uses an old version of winit that has a bug on linux/X11
+ggez = { git = "https://github.com/ggez/ggez", branch = "devel" }
