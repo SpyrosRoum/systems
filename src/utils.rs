@@ -43,6 +43,7 @@ pub(crate) fn handle_key_down(state: &mut State, ctx: &mut Context, keycode: &Ke
     match keycode {
         KeyCode::Escape | KeyCode::Q => event::quit(ctx),
         KeyCode::P => state.toggle_pause(),
+        KeyCode::R => state.restart(ctx),
         _ => {}
     }
 }

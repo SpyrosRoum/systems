@@ -1,44 +1,40 @@
 use std::time::Instant;
 
 use ggez::{
-    graphics::{self, Color, DrawMode},
+    graphics::{self, Color, DrawMode, Rect},
     Context, GameResult,
 };
 
 use super::{Body, G, SOFTENING};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(crate) struct NBody {
     pub(crate) bodies: Vec<Body>,
     last_step: Instant,
+    initialised: bool,
 }
 
 impl NBody {
-    pub(crate) fn title(&self) -> &'static str {
-        "n-body Simulation"
-    }
-
-    fn with_capacity(capacity: usize) -> Self {
+    pub(crate) fn new() -> Self {
         Self {
+            bodies: vec![],
             last_step: Instant::now(),
-            bodies: Vec::with_capacity(capacity),
+            initialised: false,
         }
     }
 
-    pub(crate) fn initialise(bodies: usize, width: f32, height: f32) -> Self {
+    pub(crate) fn initialise(&mut self, bodies: usize, reinitialise: bool, coords: &Rect) {
+        if !reinitialise && self.initialised {
+            return;
+        }
         let mut rng = rand::thread_rng();
 
-        let mut system = NBody::with_capacity(bodies);
-
-        (0..bodies).for_each(|_| {
-            system
-                .bodies
-                .push(Body::new_random(&mut rng, width, height))
-        });
+        self.bodies.clear();
+        (0..bodies).for_each(|_| self.bodies.push(Body::new_random(&mut rng, coords)));
 
         // At first all bodies start with acceleration of 0 so we want to update that
-        system.update_acc();
-        system
+        self.update_acc();
+        self.initialised = true;
     }
 
     /// Update the acceleration for all bodies

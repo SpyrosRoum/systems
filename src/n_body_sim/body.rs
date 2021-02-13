@@ -1,5 +1,8 @@
 use {
-    ggez::mint::{Point2, Vector2},
+    ggez::{
+        graphics::Rect,
+        mint::{Point2, Vector2},
+    },
     rand::{rngs::ThreadRng, Rng},
 };
 
@@ -15,12 +18,20 @@ pub(crate) struct Body {
 }
 
 impl Body {
-    pub(crate) fn new_random(rng: &mut ThreadRng, width: f32, height: f32) -> Self {
-        let (width, height) = (width as f64, height as f64);
+    pub(crate) fn new_random(rng: &mut ThreadRng, coords: &Rect) -> Self {
+        dbg!(coords);
+        let (low_x, high_x) = (
+            coords.x + 10.0,
+            coords.x + coords.w - 10.0
+        );
+        let (low_y, high_y) = (
+            coords.y + 10.0,
+            coords.y + coords.h - 10.0
+        );
         Self {
             pos: [
-                rng.gen_range(10.0..(width - 50.0)),
-                rng.gen_range(10.0..(height - 50.0)),
+                rng.gen_range(low_x as f64..high_x as f64),
+                rng.gen_range(low_y as f64..high_y as f64),
             ]
             .into(),
             vel: [rng.gen_range(-10.0..10.0), rng.gen_range(-10.0..10.0)].into(),
