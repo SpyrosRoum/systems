@@ -19,7 +19,6 @@ pub(crate) struct Body {
 
 impl Body {
     pub(crate) fn new_random(rng: &mut ThreadRng, coords: &Rect) -> Self {
-        dbg!(coords);
         let (low_x, high_x) = (
             coords.x + 10.0,
             coords.x + coords.w - 10.0
