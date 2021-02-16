@@ -19,14 +19,8 @@ pub(crate) struct Body {
 
 impl Body {
     pub(crate) fn new_random(rng: &mut ThreadRng, coords: &Rect) -> Self {
-        let (low_x, high_x) = (
-            coords.x + 10.0,
-            coords.x + coords.w - 10.0
-        );
-        let (low_y, high_y) = (
-            coords.y + 10.0,
-            coords.y + coords.h - 10.0
-        );
+        let (low_x, high_x) = (coords.x + 10.0, coords.x + coords.w - 10.0);
+        let (low_y, high_y) = (coords.y + 10.0, coords.y + coords.h - 10.0);
         Self {
             pos: [
                 rng.gen_range(low_x as f64..high_x as f64),

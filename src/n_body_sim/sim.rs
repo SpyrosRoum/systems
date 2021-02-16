@@ -1,16 +1,13 @@
-use std::time::Instant;
-
 use ggez::{
     graphics::{self, Color, DrawMode, Rect},
     Context, GameResult,
 };
 
-use super::{Body, G, SOFTENING};
+use super::{Body, G, SOFTENING, DT};
 
 #[derive(Debug, Clone)]
 pub(crate) struct NBody {
     pub(crate) bodies: Vec<Body>,
-    last_step: Instant,
     initialised: bool,
 }
 
@@ -18,7 +15,6 @@ impl NBody {
     pub(crate) fn new() -> Self {
         Self {
             bodies: vec![],
-            last_step: Instant::now(),
             initialised: false,
         }
     }
@@ -57,30 +53,24 @@ impl NBody {
     }
 
     pub(crate) fn update(&mut self, paused: bool) {
-        let now = Instant::now();
         if paused {
-            // Update the last step so there is not a big jump when we resume
-            self.last_step = now;
             return;
         }
-        let dt = (now - self.last_step).as_secs_f64();
 
         for body in self.bodies.iter_mut() {
-            body.vel.x += body.acc.x * dt / 2.0;
-            body.vel.y += body.acc.y * dt / 2.0;
+            body.vel.x += body.acc.x * DT / 2.0;
+            body.vel.y += body.acc.y * DT / 2.0;
 
-            body.pos.x += body.vel.x * dt;
-            body.pos.y += body.vel.y * dt;
+            body.pos.x += body.vel.x * DT;
+            body.pos.y += body.vel.y * DT;
         }
 
         self.update_acc();
 
         for body in self.bodies.iter_mut() {
-            body.vel.x += body.acc.x * dt / 2.0;
-            body.vel.y += body.acc.y * dt / 2.0;
+            body.vel.x += body.acc.x * DT / 2.0;
+            body.vel.y += body.acc.y * DT / 2.0;
         }
-
-        self.last_step = now;
     }
 
     pub(crate) fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
