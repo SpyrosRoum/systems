@@ -47,6 +47,7 @@ impl State {
         let coords = graphics::screen_coordinates(ctx);
         match &mut self.system.as_mut().unwrap().0 {
             System::NBody(nbody) => nbody.initialise(5, false, &coords),
+            System::Life(life) => life.initialise(false, &coords),
         }
     }
 
@@ -59,6 +60,7 @@ impl State {
             let coords = graphics::screen_coordinates(ctx);
             match sys {
                 System::NBody(nbody) => nbody.initialise(5, true, &coords),
+                System::Life(life) => life.initialise(true, &coords),
             }
         }
     }
@@ -69,6 +71,7 @@ impl EventHandler for State {
         if let Some((sys, _)) = &mut self.system {
             match sys {
                 System::NBody(nbody) => nbody.update(self.paused),
+                System::Life(life) => life.update(self.paused),
             };
         }
         Ok(())
@@ -82,6 +85,7 @@ impl EventHandler for State {
             utils::draw_paused(ctx, self.paused, Color::WHITE)?;
             match sys {
                 System::NBody(nbody) => nbody.draw(ctx)?,
+                System::Life(life) => life.draw(ctx)?,
             };
         } else {
             let coords = graphics::screen_coordinates(ctx);

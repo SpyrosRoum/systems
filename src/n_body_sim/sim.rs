@@ -3,7 +3,7 @@ use ggez::{
     Context, GameResult,
 };
 
-use super::{Body, G, SOFTENING, DT};
+use super::{Body, DT, G, SOFTENING};
 
 #[derive(Debug, Clone)]
 pub(crate) struct NBody {
@@ -77,9 +77,8 @@ impl NBody {
         for body in self.bodies.iter() {
             let pos = [body.pos.x as f32, body.pos.y as f32];
             let circle =
-                graphics::Mesh::new_circle(ctx, DrawMode::fill(), pos, 10.0, 0.25, Color::WHITE)
-                    .unwrap();
-            graphics::draw(ctx, &circle, ([0.0, 0.0],)).unwrap();
+                graphics::Mesh::new_circle(ctx, DrawMode::fill(), pos, 10.0, 0.25, Color::WHITE)?;
+            graphics::draw(ctx, &circle, ([0.0, 0.0],))?;
         }
 
         Ok(())
