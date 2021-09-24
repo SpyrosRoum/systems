@@ -36,9 +36,9 @@ impl<'a> State<'a> {
             // Then the system is the current system, so we restart it
             self.get_cur_system_mut().init(true);
         } else {
-            let sys = new_system.unwrap();
+            let mut sys = new_system.unwrap();
+            sys.init(false);
             let old_sys = std::mem::replace(&mut self.system, sys);
-
             self.systems.insert(old_sys.name(), old_sys);
         };
     }
