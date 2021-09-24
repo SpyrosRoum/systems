@@ -6,7 +6,7 @@ use macroquad::{experimental::camera::mouse::Camera, prelude::*};
 
 use state::State;
 
-pub(crate) const BG: Color = GRAY;
+pub(crate) const BG: Color = BLACK;
 pub(crate) const FG: Color = WHITE;
 
 pub(crate) trait System {
@@ -32,10 +32,13 @@ async fn main() {
         }
 
         let cam2d: Camera2D = cam.clone().into();
-        let pos = mouse_position();
+        let pos = Vec2::from(mouse_position());
+        // The position is still not exact but it's lose enough for now
+        let mouse_pos = pos - Vec2::ONE;
         state
             .get_cur_system_mut()
-            .handle_input(cam2d.screen_to_world(Vec2::from(pos)));
+            .handle_input(cam2d.screen_to_world(mouse_pos));
+
         if !state.is_paused() {
             state.get_cur_system_mut().step();
         }

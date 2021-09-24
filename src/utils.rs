@@ -61,7 +61,7 @@ pub(crate) fn draw_ui(state: &mut State) {
                 state.set_system(systems::Life::new().name());
             }
             if ui.button("N-Body Simulation").clicked() {
-                state.set_system(systems::NBodySim::new().name());
+                state.set_system(systems::NBody::new().name());
             }
         });
     });

@@ -57,8 +57,6 @@ impl System for Life {
     }
 
     fn handle_input(&mut self, mouse_pos: Vec2) {
-        // The position is still not exact but it's lose enough for now
-        let mouse_pos = mouse_pos - Vec2::ONE;
         if is_mouse_button_down(MouseButton::Left) {
             self.cells
                 .insert(Cell::new((mouse_pos.x as i64, mouse_pos.y as i64)));

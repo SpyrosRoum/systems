@@ -15,7 +15,7 @@ impl<'a> Default for State<'a> {
         let mut systems: HashMap<&str, Box<dyn System>> = HashMap::new();
 
         // Starting system is life so we don't insert it
-        let nbody_sim = systems::NBodySim::new();
+        let nbody_sim = systems::NBody::new();
         systems.insert(nbody_sim.name(), Box::new(nbody_sim));
 
         let mut life = systems::Life::new();
