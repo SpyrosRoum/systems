@@ -4,7 +4,6 @@ mod utils;
 
 use macroquad::{experimental::camera::mouse::Camera, prelude::*};
 
-use macroquad::prelude::scene::camera_pos;
 use state::State;
 
 pub(crate) const BG: Color = GRAY;
@@ -31,8 +30,6 @@ async fn main() {
         if utils::handle_common_input(&mut state) {
             break;
         }
-
-        // draw_circle(0.0, 0.0, 1.0, FG);
 
         let cam2d: Camera2D = cam.clone().into();
         let pos = mouse_position();

@@ -41,7 +41,11 @@ pub(crate) fn draw_ui(state: &mut State) {
     egui_macroquad::ui(|ctx| {
         egui::Window::new("Info").show(ctx, |ui| {
             ui.label(format!("Current System: {}", state.get_cur_system().name()));
-            ui.label(if state.is_paused() { "Paused" } else { "Running" });
+            ui.label(if state.is_paused() {
+                "Paused"
+            } else {
+                "Running"
+            });
             ui.label(format!("FPS: {}", get_fps()));
         });
 
