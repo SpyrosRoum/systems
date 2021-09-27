@@ -1,7 +1,7 @@
 mod cell;
-mod life;
+mod game_of_life;
 
 use cell::Cell;
-pub(crate) use life::Life;
+pub(crate) use game_of_life::Life;
 
 const LENGTH: i64 = 1;

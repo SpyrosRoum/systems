@@ -34,15 +34,14 @@ impl<'a> State<'a> {
     pub(crate) fn set_system(&mut self, new_system: &str) {
         let new_system = self.find_system(new_system);
 
-        if new_system.is_none() {
-            // Then the system is the current system, so we restart it
-            self.get_cur_system_mut().init(true);
-        } else {
-            let mut sys = new_system.unwrap();
+        if let Some(mut sys) = new_system {
             sys.init(false);
             let old_sys = std::mem::replace(&mut self.system, sys);
             self.systems.insert(old_sys.name(), old_sys);
-        };
+        } else {
+            // Then the system is the current system, so we restart it
+            self.get_cur_system_mut().init(true);
+        }
     }
 
     pub(crate) fn toggle_pause(&mut self) {
@@ -53,8 +52,8 @@ impl<'a> State<'a> {
         self.systems.remove(system)
     }
 
-    pub(crate) fn get_cur_system(&self) -> &Box<dyn System> {
-        &self.system
+    pub(crate) fn get_cur_system(&self) -> &dyn System {
+        self.system.as_ref()
     }
 
     pub(crate) fn get_cur_system_mut(&mut self) -> &mut Box<dyn System> {
