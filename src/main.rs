@@ -32,12 +32,9 @@ async fn main() {
         }
 
         let cam2d: Camera2D = cam.clone().into();
-        let pos = Vec2::from(mouse_position());
-        // The position is still not exact but it's lose enough for now
-        let mouse_pos = pos - Vec2::ONE;
-        state
-            .get_cur_system_mut()
-            .handle_input(cam2d.screen_to_world(mouse_pos));
+        let pos = cam2d.screen_to_world(Vec2::from(mouse_position()));
+        let pos = pos.round();
+        state.get_cur_system_mut().handle_input(pos);
 
         if !state.is_paused() {
             state.get_cur_system_mut().step();

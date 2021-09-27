@@ -17,6 +17,8 @@ impl<'a> Default for State<'a> {
         // Starting system is life so we don't insert it
         let nbody_sim = systems::NBody::new();
         systems.insert(nbody_sim.name(), Box::new(nbody_sim));
+        let ant = systems::AntAutomata::new();
+        systems.insert(ant.name(), Box::new(ant));
 
         let mut life = systems::Life::new();
         life.init(false);

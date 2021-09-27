@@ -63,6 +63,9 @@ pub(crate) fn draw_ui(state: &mut State) {
             if ui.button("N-Body Simulation").clicked() {
                 state.set_system(systems::NBody::new().name());
             }
+            if ui.button("Langton's Ant").clicked() {
+                state.set_system(systems::AntAutomata::new().name());
+            }
         });
     });
 

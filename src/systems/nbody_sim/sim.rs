@@ -70,6 +70,7 @@ impl System for NBody {
 
     fn handle_input(&mut self, mouse_pos: Vec2) {
         // ToDo Allow creating bodies with different mass when holding click
+        // ToDo Allow deleting bodies with right click
         if is_mouse_button_pressed(MouseButton::Left) {
             self.bodies.push(Body::new(mouse_pos));
         }
