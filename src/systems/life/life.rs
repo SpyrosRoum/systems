@@ -114,8 +114,11 @@ impl System for Life {
         std::mem::swap(&mut self.cells, &mut new_cells);
     }
 
-    fn draw(&self) {
+    fn draw(&self, visible_space: Rect) {
         for cell in self.cells.iter() {
+            if !crate::utils::contains(&visible_space, vec2(cell.pos.0 as f32, cell.pos.1 as f32)) {
+                continue;
+            }
             draw_rectangle(
                 cell.pos.0 as f32,
                 cell.pos.1 as f32,

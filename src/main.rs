@@ -15,7 +15,7 @@ pub(crate) trait System {
     fn init(&mut self, restart: bool);
     fn handle_input(&mut self, mouse_pos: Vec2);
     fn step(&mut self);
-    fn draw(&self);
+    fn draw(&self, visible_space: Rect);
 }
 
 #[macroquad::main("Systems")]
@@ -39,8 +39,16 @@ async fn main() {
         if !state.is_paused() {
             state.get_cur_system_mut().step();
         }
+
+        let visible_space = {
+            let xy = cam2d.screen_to_world(Vec2::ZERO);
+            let wh = cam2d.screen_to_world(vec2(screen_width(), screen_height()));
+            let (x, y) = (xy.x, xy.y);
+            let (w, h) = (wh.x, wh.y);
+            Rect::new(x, y, w, h)
+        };
         // We draw even if it's paused, otherwise as soon as we pause the screen will get cleared
-        state.get_cur_system().draw();
+        state.get_cur_system().draw(visible_space);
 
         utils::draw_ui(&mut state);
         next_frame().await;

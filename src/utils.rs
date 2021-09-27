@@ -66,3 +66,8 @@ pub(crate) fn draw_ui(state: &mut State) {
 
     egui_macroquad::draw();
 }
+
+/// A custom impl of Rect::contains
+pub(crate) fn contains(rect: &Rect, point: Vec2) -> bool {
+    rect.x <= point.x && point.x <= rect.w && point.y <= rect.h && point.y >= rect.y
+}

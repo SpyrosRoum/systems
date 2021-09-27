@@ -93,8 +93,11 @@ impl System for NBody {
         }
     }
 
-    fn draw(&self) {
+    fn draw(&self, visible_space: Rect) {
         for body in self.bodies.iter() {
+            if !crate::utils::contains(&visible_space, body.pos) {
+                continue;
+            }
             draw_circle(body.pos.x, body.pos.y, 1., crate::FG);
         }
     }

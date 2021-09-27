@@ -150,12 +150,18 @@ impl System for AntAutomata {
         self.last_tick = Instant::now();
     }
 
-    fn draw(&self) {
+    fn draw(&self, visible_space: Rect) {
         for cell in self.white_blocks.iter() {
+            if !crate::utils::contains(&visible_space, vec2(cell.pos.0 as f32, cell.pos.1 as f32)) {
+                continue;
+            }
             draw_rectangle(cell.pos.0 as f32, cell.pos.1 as f32, 1., 1., WHITE);
             draw_rectangle_lines(cell.pos.0 as f32, cell.pos.1 as f32, 1., 1., 0.1, DARKGRAY);
         }
         for ant in self.ants.iter() {
+            if !crate::utils::contains(&visible_space, ant.pos) {
+                continue;
+            }
             draw_rectangle(ant.pos.x, ant.pos.y, 1., 1., RED);
         }
     }
